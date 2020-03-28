@@ -13,16 +13,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // ctx.fillRect(10,10,50,50);
 
     document.getElementById("myCanvas").addEventListener('click', (e)=>{
-        mark(e);//只是用來看滑鼠點按的座標是否正確
+        // getPixelData(e);
+        // mark(e);//只是用來看滑鼠點按的座標是否正確
         markCoord(e);
-        getPixelData(e);
     })
 })
 
 function setUpCanvas(){
     var c = document.getElementById("myCanvas");
-    c.setAttribute('width',window.innerWidth);
-    c.setAttribute('height',window.innerHeight);
+    let width = window.innerWidth*0.8,
+        height = window.innerHeight*0.8;
+    c.setAttribute('width',width);
+    c.setAttribute('height',height);
+    let ctx = c.getContext("2d");
+    ctx.fillStyle = "grey";
+    ctx.fillRect(0, 0, width, height);
 }
 
 function translatePos(e){
@@ -38,7 +43,18 @@ function mark(e){
   var canvas = e.target;
   var ctx = canvas.getContext("2d");
   console.log('mark',pos.x,pos.y)
+  ctx.strokeStyle = 'blue';
   ctx.strokeRect(pos.x,pos.y,1,1);
+}
+
+function unmark(e){
+  var x = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[0]);
+  var y = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[1]);
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  console.log('unmark',x, y)
+  ctx.fillStyle = 'grey';
+  ctx.fillRect(x-1,y-1,3,3);
 }
 
 function markCoord(e){
@@ -55,16 +71,16 @@ function markCoord(e){
   var deleteElement = document.createElement('span');
   deleteElement.classList.add('delete');
   deleteElement.innerText="X";
-  deleteElement.addEventListener('click', (e)=>{deleteCoord(e.target)})
+  deleteElement.addEventListener('click', (e)=>{deleteCoord(e)})
   s.appendChild(deleteElement);
-
 
   document.body.append(s);
 }
 
-function deleteCoord(element){
+function deleteCoord(e){
   console.log('Yee');
-  element.parentNode.remove();
+  unmark(e);
+  e.target.parentNode.remove();
 }
 
 function getPixelData(e)
@@ -76,6 +92,10 @@ function getPixelData(e)
   var pixel = imageData.data;
   var hex = "#" + ("000000" + rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
   console.log(hex,'at',pos.x, pos.y);
+  var color = document.getElementById('color');
+  var colorCode = document.getElementById('color-code');
+  color.style.backgroundColor = hex;
+  colorCode.innerText = hex;
 }
 
 function rgbToHex(r, g, b) {

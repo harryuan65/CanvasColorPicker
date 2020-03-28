@@ -1,3 +1,33 @@
+body{
+    background-color: #aaa;
+}
+
+.btn-input{
+  background-color: #7ceece;
+  padding: 7px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  color: #335;
+  transition: color .1s ease;
+}
+
+.btn-input:hover{
+  color: #777;
+  transition: color .1s ease;
+}
+
+
+#myCanvas{
+  position: relative;
+  top: 30px;
+}
+
+#color{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
 .coord {
   position: absolute;
 }
