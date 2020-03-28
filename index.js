@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // ctx.fillRect(10,10,50,50);
 
     document.getElementById("myCanvas").addEventListener('click', (e)=>{
-        mark(e);
+        mark(e);//只是用來看滑鼠點按的座標是否正確
+        markCoord(e);
         getPixelData(e);
     })
 })
@@ -23,6 +24,7 @@ function setUpCanvas(){
     c.setAttribute('width',window.innerWidth);
     c.setAttribute('height',window.innerHeight);
 }
+
 function translatePos(e){
   let x = e.clientX, y = e.clientY;
   var canvas = e.target;
@@ -30,23 +32,39 @@ function translatePos(e){
       actualY = y - canvas.offsetTop + window.scrollY;
   return {x: actualX, y: actualY};
 }
+
 function mark(e){
   var pos = translatePos(e);
   var canvas = e.target;
   var ctx = canvas.getContext("2d");
-  console.log(pos.x,pos.y)
+  console.log('mark',pos.x,pos.y)
   ctx.strokeRect(pos.x,pos.y,1,1);
-  markCoord(e);
 }
 
 function markCoord(e){
-  var pos = translatePos(e);
-  var s = document.createElement('span');
-  s.style.position = 'absolute';
-  s.style.left = `${pos.x}px`;
-  s.style.top = `${pos.y}px`;
-  s.innerText =`(${pos.x}, ${pos.y})`;
+  //span 其實在絕對的位置，但他的text是canvas內相對的座標
+  let x = e.clientX, y = e.clientY;
+  var displayPos = translatePos(e);
+
+  s = document.createElement('span');
+  s.classList.add('coord');
+  s.style.left = `${x}px`;
+  s.style.top = `${y-30}px`;
+  s.innerText =`(${displayPos.x}, ${displayPos.y})`;
+  console.log('span at',x,y)
+  var deleteElement = document.createElement('span');
+  deleteElement.classList.add('delete');
+  deleteElement.innerText="X";
+  deleteElement.addEventListener('click', (e)=>{deleteCoord(e.target)})
+  s.appendChild(deleteElement);
+
+
   document.body.append(s);
+}
+
+function deleteCoord(element){
+  console.log('Yee');
+  element.parentNode.remove();
 }
 
 function getPixelData(e)
@@ -57,7 +75,7 @@ function getPixelData(e)
   var imageData=ctx.getImageData(pos.x,pos.y,1,1); //posx, poxy ,width, height?
   var pixel = imageData.data;
   var hex = "#" + ("000000" + rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
-  console.log(hex);
+  console.log(hex,'at',pos.x, pos.y);
 }
 
 function rgbToHex(r, g, b) {

@@ -1,0 +1,14 @@
+.coord {
+  position: absolute;
+}
+
+.coord .delete{
+  position: relative;
+  color: red;
+  display: none;
+  cursor: pointer;
+}
+
+.coord:hover > .delete{
+  display: inline;
+}
