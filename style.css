@@ -1,5 +1,13 @@
 body{
-    background-color: #aaa;
+  background-color: #aaa;
+  margin: 0;
+  font-family: 'STHeiti' ,'Microsoft JhengHei' ,sans-serif, monospace;
+}
+
+#myCanvas{
+    position: fixed;
+    top: 60px;
+    z-index: 0;
 }
 
 .btn-input{
@@ -17,17 +25,33 @@ body{
 }
 
 
-#myCanvas{
-  position: relative;
-  top: 30px;
+nav{
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgba(54,54,54,.8);
+  height: 60px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+#wrap-color{
+  display: flex;
+  align-items: center;
 }
 
 #color{
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   background-color: black;
+  border: 1px solid #fff;
 }
+
 .coord {
   position: absolute;
 }

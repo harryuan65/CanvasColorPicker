@@ -6,15 +6,23 @@
 <script src="https://kit.fontawesome.com/226e90ce0c.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/fontawesome.min.css">
 
-<label class="btn-input">
-  <input type='file' id="imgInp" style="display:none;"/>
-  <i class="fas fa-image"></i> 上傳圖片
-</label>
-<span id="color"></span>
-<span id="color-code">#000000</span>
+<nav id="nav">
+  <label class="btn-input">
+    <input type='file' id="imgInp" style="display:none;"/>
+    <i class="fas fa-image"></i> 上傳圖片
+  </label>
+  <div id="wrap-color">
+    <span id="color"></span>
+    <span id="color-code">#000000</span>
+  </div>
+  <div id="wrap-dot-toggler">
+    <span id="enable-dot"></span>
+    <button id="toggleDot" onclick="toggleDot()">允許標記</button>
+  </div>
+</nav>
 <br>
 <!-- <span class="coord">(123,123)<span class="delete">X</span></span> -->
-<canvas id="myCanvas" width="100%" height="100%" style="border:1px solid #000000;">
+<canvas id="myCanvas" style="border:1px solid #000000;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 

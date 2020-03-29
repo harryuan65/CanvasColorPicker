@@ -1,33 +1,39 @@
-document.addEventListener('click',(e)=>{
-    // console.log('From document:',e.clientX, e.clientY);
+window.addEventListener('resize',(e)=>{
+    setCanvasWidthtHeight();
 })
-document.addEventListener('DOMContentLoaded', ()=>{
-    setUpCanvas();
 
+document.addEventListener('DOMContentLoaded', ()=>{
+    initCanvas();
+    enableMark = false;
+
+    document.getElementById('enable-dot').innerText = enableMark;
     document.getElementById("imgInp").addEventListener('change', (e)=>{
         readURL(e.target);
     })
-    // var c = document.getElementById("myCanvas");
-    // var ctx=c.getContext("2d");
-    // ctx.fillStyle="red";
-    // ctx.fillRect(10,10,50,50);
 
     document.getElementById("myCanvas").addEventListener('click', (e)=>{
-        // getPixelData(e);
-        // mark(e);//只是用來看滑鼠點按的座標是否正確
-        markCoord(e);
+        getPixelData(e);
+        if (enableMark){
+          mark(e);
+          markCoord(e);
+        }
     })
 })
 
-function setUpCanvas(){
+function initCanvas(){
+    var c = setCanvasWidthtHeight();
+    let ctx = c.getContext("2d");
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, c.getAttribute('width'), c.getAttribute("height"));
+}
+
+function setCanvasWidthtHeight(){
     var c = document.getElementById("myCanvas");
-    let width = window.innerWidth*0.8,
-        height = window.innerHeight*0.8;
+    let width = document.documentElement.clientWidth,
+        height = document.documentElement.clientHeight - document.getElementById('nav').style.height;
     c.setAttribute('width',width);
     c.setAttribute('height',height);
-    let ctx = c.getContext("2d");
-    ctx.fillStyle = "grey";
-    ctx.fillRect(0, 0, width, height);
+    return c;
 }
 
 function translatePos(e){
@@ -36,6 +42,11 @@ function translatePos(e){
   let actualX = x - canvas.offsetLeft + window.scrollX,
       actualY = y - canvas.offsetTop + window.scrollY;
   return {x: actualX, y: actualY};
+}
+
+function toggleDot(){
+  enableMark = !enableMark;
+  document.getElementById('enable-dot').innerText = enableMark;
 }
 
 function mark(e){
@@ -53,7 +64,7 @@ function unmark(e){
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   console.log('unmark',x, y)
-  ctx.fillStyle = 'grey';
+  ctx.fillStyle = 'white';
   ctx.fillRect(x-1,y-1,3,3);
 }
 
@@ -117,6 +128,9 @@ function readURL(input) {
             temp_img.onload = () => {
             //   console.log(this.)
               alert(temp_img.naturalWidth + 'x' + temp_img.naturalHeight);
+              var c = document.getElementById("myCanvas");
+              c.setAttribute('width',temp_img.naturalWidth);
+              c.setAttribute('height',temp_img.naturalHeight);
               var c = document.getElementById("myCanvas");
               var ctx=c.getContext("2d");
               ctx.drawImage(temp_img, 10, 10, temp_img.naturalWidth, temp_img.naturalHeight);
