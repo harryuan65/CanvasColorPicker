@@ -1,14 +1,15 @@
-window.addEventListener('resize',(e)=>{
-    setCanvasWidthtHeight();
-})
+// window.addEventListener('resize',(e)=>{
+//     setCanvasWidthtHeight();
+// })
 
 document.addEventListener('DOMContentLoaded', ()=>{
     initCanvas();
     enableMark = false;
-
+    image = null;
     document.getElementById('enable-dot').innerText = enableMark;
     document.getElementById("imgInp").addEventListener('change', (e)=>{
-        readURL(e.target);
+        image = e.target;
+        readURL(image);
     })
 
     document.getElementById("myCanvas").addEventListener('click', (e)=>{
@@ -29,8 +30,10 @@ function initCanvas(){
 
 function setCanvasWidthtHeight(){
     var c = document.getElementById("myCanvas");
+    var nav = document.getElementById('nav');
+    var navHeight = parseInt(window.getComputedStyle(nav).height.split('px')[0]);
     let width = document.documentElement.clientWidth,
-        height = document.documentElement.clientHeight - document.getElementById('nav').style.height;
+        height = document.documentElement.clientHeight - navHeight;
     c.setAttribute('width',width);
     c.setAttribute('height',height);
     return c;
@@ -115,6 +118,10 @@ function rgbToHex(r, g, b) {
     return ((r << 16) | (g << 8) | b).toString(16);
 }
 
+function resetImage(){
+    readURL(image);
+}
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -127,13 +134,13 @@ function readURL(input) {
             var temp_img = new Image(); //這是另一招
             temp_img.onload = () => {
             //   console.log(this.)
-              alert(temp_img.naturalWidth + 'x' + temp_img.naturalHeight);
+              console.log(temp_img.naturalWidth + 'x' + temp_img.naturalHeight);
               var c = document.getElementById("myCanvas");
               c.setAttribute('width',temp_img.naturalWidth);
               c.setAttribute('height',temp_img.naturalHeight);
-              var c = document.getElementById("myCanvas");
-              var ctx=c.getContext("2d");
-              ctx.drawImage(temp_img, 10, 10, temp_img.naturalWidth, temp_img.naturalHeight);
+
+              var ctx = c.getContext("2d");
+              ctx.drawImage(temp_img, 0, 0, temp_img.naturalWidth, temp_img.naturalHeight);
               console.log('drew');
             }
             temp_img.src = e.target.result;
