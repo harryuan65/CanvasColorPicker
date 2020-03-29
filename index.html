@@ -1,26 +1,40 @@
 <!DOCTYPE html>
 <html>
-<body style="background-color: aliceblue;">
-<script src="index.js" type="text/javascript"></script>
-<link rel="stylesheet" href="style.css">
-<script src="https://kit.fontawesome.com/226e90ce0c.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/fontawesome.min.css">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" >
+    <script src="index.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+<body>
 <nav id="nav">
   <label class="btn-input">
     <input type='file' id="imgInp" style="display:none;"/>
-    <i class="fas fa-image"></i> 上傳圖片
+    <img id="img-icon" src="./image.png" alt="">
+    <span id="text">上傳圖片</span>
   </label>
-  <div id="wrap-color">
-    <span id="color"></span>
-    <span id="color-code">#000000</span>
+
+  <div id="wrap-reset">
+    <button id="reset-imag-d" onclick="reset()">重置</button>
   </div>
-  <div id="wrap-dot-toggler">
+
+  <div id="wrap-color">
+    <span id="picked-color" class="color"></span>
+    <span id="picked-color-code" class="color-code"></span>
+  </div>
+
+  <div class="wrap-toggler">
     <span id="enable-dot"></span>
     <button id="toggleDot" onclick="toggleDot()">允許標記</button>
   </div>
-  <div id="wrap-reset">
-    <button id="reset-imag-d" onclick="resetImage()">重置圖片</button>
+
+  <div class="wrap-toggler">
+    <span id="enable-line"></span>
+    <button id="toggleDot" onclick="toggleLine()">允許畫線</button>
+    <span id="line-width" class="line-width"></span>
+    <span id="line-color" class="color"></span>
+    <span id="line-color-code" class="color-code"></span>
   </div>
+
 </nav>
 <br>
 <!-- <span class="coord">(123,123)<span class="delete">X</span></span> -->
@@ -30,7 +44,7 @@
   </canvas>
 </div>
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div id="credits">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 </body>
 </html>

@@ -1,31 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
 body{
   width: 100%;
   height: 100%;
   background-color: #aaa;
   margin: 0;
-  font-family: 'STHeiti' ,'Microsoft JhengHei';
-  overflow: visible;
-}
-
-#wrap-canvas{
+  font-family: 'Courier New', monospace,'STHeiti' ,'Microsoft JhengHei';
   display: grid;
   place-items: center;
-  top: 0;
 }
 
 #myCanvas{
-  position: relative;
-  top: 50px;
   z-index: 0;
+  position: relative;
+  top: 40px;
 }
 
 .btn-input{
+  display: flex;
+  align-items: center;
   background-color: #7ceece;
-  padding: 10px;
+  padding: 8px;
   margin-bottom: 5px;
   border-radius: 10px;
   color: #335;
   transition: color .2s ease;
+}
+
+.btn-input #text{
+  padding-top:3px;
 }
 
 .btn-input:hover{
@@ -39,17 +44,22 @@ body{
   transition: color .2s ease;
 }
 
+#img-icon{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
 nav{
   z-index: 1;
   position: fixed;
   display: flex;
   width: 100%;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   background-color: rgba(54,54,54,.8);
   height: 60px;
-  box-sizing: border-box;
   padding: 10px;
 }
 
@@ -58,18 +68,26 @@ nav{
   align-items: center;
 }
 
-#color{
+.color{
   display: inline-block;
   width: 20px;
   height: 20px;
   background-color: black;
   border: 1px solid #fff;
 }
-#color-code{
+
+.color-code{
   margin-left: 5px;
-  font-family: 'Courier New', monospace;
-  font-size: 30px;
+  font-size: 20px;
   color: #ccc;
+}
+
+.wrap-toggler{
+  display: flex;
+  align-items: center;
+}
+.wrap-toggler span[class]{
+  margin-left: 3px;
 }
 .coord {
   position: absolute;
@@ -84,4 +102,18 @@ nav{
 
 .coord:hover > .delete{
   display: inline;
+}
+
+#credits{
+  position: fixed;
+  bottom: 10px;
+  font-size: 5px;
+}
+#credits *{
+  color: #000;
+}
+@media only screen and (max-width: 500px){
+  #wrap-reset, .wrap-toggler{
+    display: none;
+  }
 }
