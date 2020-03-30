@@ -82,6 +82,24 @@ nav{
   color: #ccc;
 }
 
+img.copy{
+  width: 25px;
+  height: 25px;
+}
+
+#copy{
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  margin-left: 5px;
+  transition: background-color .1s ease;
+}
+
+#copy:hover{
+  background-color: rgba(255,255,255,.4);
+  transition: background-color .1s ease;
+}
 .wrap-toggler{
   display: flex;
   align-items: center;

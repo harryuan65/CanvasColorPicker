@@ -197,3 +197,13 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+const copyToClipboard = () => {
+  const el = document.createElement('textarea');
+  el.value = document.getElementById('picked-color-code').innerText;
+  alert(`已複製 ${el.value}`);
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
