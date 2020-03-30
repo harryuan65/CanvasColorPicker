@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     enableLine = false;
     defaultColor = "#000000";
     lining = false;
-    lineWidth = 1;
+    lineWidth = 2;
     lineColor = defaultColor;
     path = {
       from: {
@@ -98,6 +98,7 @@ function mark(e){
   var ctx = canvas.getContext("2d");
   ctx.strokeStyle = 'blue';
   ctx.strokeRect(pos.x,pos.y,1,1);
+  console.log(pos.x, pos.y);
 }
 
 function unmark(e){
@@ -154,27 +155,7 @@ function rgbToHex(r, g, b) {
 }
 
 function reset(){
-  lining = false;
-  path = {
-    from: {
-      x: 0,
-      y: 0
-    },
-    to:{
-      x:0,
-      y:0
-    }
-  }
-
-  var elements = document.getElementsByClassName('coord');
-  while(elements[0]) {
-    elements[0].parentNode.removeChild(elements[0]);
-  }
-
-  var canvas = setCanvasWidthtHeight();;
-  var ctx = canvas.getContext("2d");
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0,0,canvas.getAttribute('width'),canvas.getAttribute('height'));
+  window.location.href = window.location.href;
 }
 
 function readURL(input) {
