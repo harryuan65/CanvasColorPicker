@@ -180,11 +180,23 @@ function readURL(input) {
 }
 
 const copyToClipboard = () => {
+  document.getElementById('alert').classList.remove('success') // in case someone smashes the button
+
   const el = document.createElement('textarea');
   el.value = document.getElementById('picked-color-code').innerText;
-  alert(`已複製 ${el.value}`);
   document.body.appendChild(el);
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
+
+  var copiedColor = document.getElementById('copied-color')
+  copiedColor.style.backgroundColor = el.value;
+
+  var copiedColorText = document.getElementById('copied-color-text')
+  copiedColorText.innerText = el.value;
+
+  document.getElementById('alert').classList.add('success')
+  setTimeout(function(){
+    document.getElementById('alert').classList.remove('success')
+  }, 3000);
 };
