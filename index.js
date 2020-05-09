@@ -29,9 +29,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     })
 
     document.getElementById("myCanvas").addEventListener('click', (e)=>{
-        getPixelData(e);
+        setClickedColor(e);
         if (enableMark){
-          mark(e);
           markCoord(e);
         }
         if(enableLine){
@@ -93,25 +92,38 @@ function toggleLine(){
 }
 
 function mark(e){
-  var pos = translatePos(e);
+  var markPos = translatePos(e);
   var canvas = e.target;
   var ctx = canvas.getContext("2d");
   ctx.strokeStyle = 'blue';
-  ctx.strokeRect(pos.x,pos.y,1,1);
-  console.log(pos.x, pos.y);
+  ctx.strokeRect(markPos.x,markPos.y,1,1);
+  console.log(markPos.x, markPos.y);
+  return markPos;
 }
 
 function unmark(e){
-  var x = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[0]);
-  var y = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[1]);
+  // get value from coord innerText
+  // var x = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[0]);
+  // var y = parseInt(e.target.parentNode.innerText.replace(/[^\d,]/g,'').split(',')[1]);
+
+  //get value from saved hidden tag
+  var recoverNode = e.target.parentNode.lastElementChild
+  var recoverCoord = recoverNode.getAttribute('id'),
+      recoverColor = recoverNode.getAttribute('value')
+
+  var recoverX = parseInt(recoverCoord.split('-')[0]),
+      recoverY = parseInt(recoverCoord.split('-')[1]);
+
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
-  ctx.fillStyle = 'white';
-  ctx.fillRect(x-1,y-1,3,3);
+  ctx.fillStyle = '#'+recoverColor;
+  ctx.fillRect(recoverX-1,recoverY-1,3,3);
 }
 
 function markCoord(e){
   //span 其實在絕對的位置，但他的text是canvas內相對的座標
+  var originColor = getPixelData(e);
+  var markPos = mark(e);
   let x = e.clientX, y = e.clientY;
   var displayPos = translatePos(e);
 
@@ -123,8 +135,16 @@ function markCoord(e){
   var deleteElement = document.createElement('span');
   deleteElement.classList.add('delete');
   deleteElement.innerText="X";
+
+  // use this to recover color when deleting coord
+  var recoverValue = document.createElement('span');
+  recoverValue.setAttribute('value', originColor);
+  recoverValue.setAttribute('type', 'hidden'); // https://stackoverflow.com/questions/1000795/create-a-hidden-field-in-javascript
+  recoverValue.setAttribute('id',`${markPos.x}-${markPos.y}`)
+
   deleteElement.addEventListener('click', (e)=>{deleteCoord(e)})
   s.appendChild(deleteElement);
+  s.appendChild(recoverValue);
 
   document.body.append(s);
 }
@@ -141,13 +161,18 @@ function getPixelData(e)
   var ctx = canvas.getContext("2d");
   var imageData=ctx.getImageData(pos.x,pos.y,1,1); //posx, poxy ,width, height?
   var pixel = imageData.data;
-  var hex = "#" + ("000000" + rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
+  var hex = ("000000" + rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
+  return hex;
+}
+
+function setClickedColor(e){
+  var hex = "#";
+  hex += getPixelData(e, true);
   var color = document.getElementById('picked-color');
   var colorCode = document.getElementById('picked-color-code');
   color.style.backgroundColor = hex;
   colorCode.innerText = hex;
 }
-
 function rgbToHex(r, g, b) {
     if (r > 255 || g > 255 || b > 255)
         throw "Invalid color component";
@@ -163,7 +188,7 @@ function readURL(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            var temp_img = new Image(); //這是另一招
+            var temp_img = new Image(); //we can use createElement('img') as well
             temp_img.onload = () => {
               // console.log(temp_img.naturalWidth + 'x' + temp_img.naturalHeight);
               var c = document.getElementById("myCanvas");
